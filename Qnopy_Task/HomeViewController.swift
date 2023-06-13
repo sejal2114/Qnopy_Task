@@ -45,7 +45,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 let decoder = JSONDecoder()
                 let root = try! decoder.decode(Roots.self, from: responseData)
                 self.productArray = root.products
-              //  self.protocolProductData?.reloadView()
+                DispatchQueue.main.async {
+                    self.tableView?.reloadData()
+                }
                 
             } catch {
                 print("Error decoding JSON: \(error)")
@@ -66,7 +68,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.categoryLabel.text = product.category
         cell.priceLabel.text = "Price: \(product.price)"
         cell.ratingLabel.text = "Rating: \(product.rating)"
-        cell.DiscountLabel.text = "discountPercentage: \(product.discountPercentage)"
+//        cell.DiscountLabel.text = "discountPercentage: \(product.discountPercentage)"
         cell.descriptionLabel.text = product.description
         return cell
     }

@@ -9,7 +9,7 @@ struct Product:Decodable {
     var title: String
     var description: String
     var price: Int
-    var discountPercentage:Int
+//    var discountPercentage:Int?
     var rating: Double
     var stock: Int
     var brand: String
