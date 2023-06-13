@@ -12,10 +12,26 @@ class LoginViewController: UIViewController {
 
     @IBAction func loginButtonTapped(_ sender: UIButton) {
         sendLoginRequest()
+        handleLoginResponse(success: true)
+        
     }
-
+    // Function to handle the login response
+        func handleLoginResponse(success: Bool) {
+            if success {
+                // Navigate to HomeViewController
+                DispatchQueue.main.async {
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    if let homeViewController = storyboard.instantiateViewController(withIdentifier: "HomeViewController") as? HomeViewController {
+                        self.navigationController?.pushViewController(homeViewController, animated: true)
+                    }
+                }
+            } else {
+                print("Failed")
+            }
+        }
+    
     // Define the API URL
-    let apiUrlString = "http://restapi.adequateshop.com/api/authaccount/login"
+    let apiUrlString = "https://restapi.adequateshop.com/api/authaccount/login"
 
     // Define the request parameters as a dictionary
     let parameters = [
@@ -63,13 +79,13 @@ class LoginViewController: UIViewController {
             // Parse the response data as JSON
             do {
                 if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                    // Handle the JSON response
+                    
                     print(json)
-                    // Extract the necessary data from the response
+                    
                     if let code = json["code"] as? Int, let message = json["message"] as? String {
                         if code == 0 {
                             if let userData = json["data"] as? [String: Any], let name = userData["Name"] as? String {
-                                // User data and name extraction
+                                
                                 print("Name: \(name)")
                                 DispatchQueue.main.async {
                                     self?.userNameLabel.text = "Welcome \(name)"
@@ -85,7 +101,6 @@ class LoginViewController: UIViewController {
             }
         }
 
-        // Start the data task
         task.resume()
     }
 }
